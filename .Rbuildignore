@@ -15,3 +15,10 @@ fort.6
 ^data-raw$
 ^appveyor\.yml$
 ^revdep$
+^\.gitignore$
+^\.Rbuild$
+^\.Rprofile$
+^build\.properties$
+^dist$
+^Jenkinsfile$
+^tools$
