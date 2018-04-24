@@ -1,0 +1,8 @@
+#!C:/Program\ Files/git/usr/bin/sh.exe
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+echo "Git repo is at $REPO_ROOT"
+
+"/C/Program Files/R/R/bin/rscript.exe" .git/hooks/pre-commit.r
+
+git add DESCRIPTION

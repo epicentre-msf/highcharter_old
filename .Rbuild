@@ -5,7 +5,8 @@ options(
   help_type = 'html',
   repos = c(
     CRAN = 'https://cran.rstudio.com/',
-    MSF  = 'http://cran.msf.fr'))
+    MSF  = 'https://cran.msf.fr'),
+  stringsAsFactors = FALSE)
 
 require(utils)
 
@@ -86,9 +87,8 @@ Sys.setenv( PATH   = paste(
   'C:/HashiCorp/Vagrant/bin',
             Sys.getenv('PATH'), sep = ';'))
 
-getPackage('devtools', 'hadley/devtools')
+getPackage('devtools')
 getPackage('roxygen2')
-getPackage('sinew', 'metrumresearchgroup/sinew')
 getPackage('testthat')
 
 if(!file.exists('.git/hooks/pre-commit.r')) {
@@ -96,17 +96,19 @@ if(!file.exists('.git/hooks/pre-commit.r')) {
   file.copy('tools/pre-commit.r', '.git/hooks/pre-commit.r', overwrite = T)
 }
 
-devtools::use_build_ignore('.gitignore' )
-devtools::use_build_ignore('.Rbuild' )
-devtools::use_build_ignore('.Rprofile' )
-devtools::use_build_ignore('build.properties' )
-devtools::use_build_ignore('dist' )
-devtools::use_build_ignore('Jenkinsfile' )
-devtools::use_build_ignore('revdep') 
-devtools::use_build_ignore('tools')
+usethis::use_build_ignore('.gitignore' )
+usethis::use_build_ignore('.Rbuild' )
+usethis::use_build_ignore('.Rprofile' )
+usethis::use_build_ignore('build.properties' )
+usethis::use_build_ignore('dist' )
+usethis::use_build_ignore('Jenkinsfile' )
+usethis::use_build_ignore('revdep') 
+usethis::use_build_ignore('tools')
 
 .First <- function(){
+  x <- read.dcf(file = "DESCRIPTION", fields = c("Package", "Version", "Title"))
   cat('\nWelcome at', date(), '\n')
+  cat(x[1], '\n')
 }
 
 .Last <- function(){
@@ -125,18 +127,29 @@ installPackages <- function() {
   getPackages()
 }
 
+.s <- function() {
+  devtools::install_dev_deps()
+}
+
 clean <- function(){
   unlink('src-i386', T, T)
   unlink('src-x64', T, T)
 }
 
-document <- function() {
-  clean()
+.d <- function() {
   devtools::document()
 }
 
-install <- function() {
-  clean()
+.l <- function() {
+  devtools::load_all()
+}
+
+.la <- function() {
+
+  devtools::load_all()
+}
+
+.i <- function() {
   devtools::install()
 }
 
@@ -145,9 +158,21 @@ check <- function() {
   devtools::check()
 }
 
-test <- function() {
-  clean()
+.t <- function() {
   devtools::test()
+}
+
+.style <- function(strict = FALSE) {
+  require(styler)
+  style_dir('inst/shiny/default', strict = strict)
+  style_dir('r', strict = strict)
+  style_dir('tests', strict = strict)
+}
+
+.sinew <- function() {
+  lf <- list.files('R', full.names = TRUE)
+  for(f in lf)
+    try(makeOxyFile(f, verbose = FALSE, overwrite = TRUE))
 }
 
 build <- function(binary = FALSE) {
