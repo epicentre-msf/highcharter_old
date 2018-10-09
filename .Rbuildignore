@@ -1,3 +1,10 @@
+^tools$
+^Jenkinsfile$
+^dist$
+^build\.properties$
+^\.Rprofile$
+^\.Rbuild$
+^\.gitignore$
 # old versions
 # inst/htmlwidgets/lib/highcharts-4.2.4/*
 
@@ -15,10 +22,3 @@ fort.6
 ^data-raw$
 ^appveyor\.yml$
 ^revdep$
-^\.gitignore$
-^\.Rbuild$
-^\.Rprofile$
-^build\.properties$
-^dist$
-^Jenkinsfile$
-^tools$
