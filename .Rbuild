@@ -133,8 +133,7 @@ assign('print.ll', function(x) {
   devtools::load_all()}, envir = alias)
 
 assign('print.lll', function(x) {
-  devtools::load_all()
-}, envir = alias)
+  devtools::load_all()}, envir = alias)
 
 assign('print.tt', function(x) {
   devtools::test()}    , envir = alias)
@@ -174,8 +173,8 @@ build <- function() {
 
   # devtools::check()
   
-  devtools::build(dest_path =         'dist'               , vignettes = FALSE)
-  devtools::build(dest_path = sprintf('dist/%s', version.r), vignettes = FALSE, binary = TRUE)
+  devtools::build(path =         'dist', vignettes = TRUE)
+  devtools::build(path = sprintf('dist/%s', version.r), binary = TRUE, vignettes = TRUE)
 
   system2('pscp' , sprintf('-P 22 -l %s -pw %s -batch -r ./dist/*.gz      %s@%s:/var/r/src/contrib'          , dev.user, dev.password           , dev.user, dev.host))
   system2('pscp' , sprintf('-P 22 -l %s -pw %s -batch -r ./dist/%s/*.zip %s@%s:/var/r/bin/windows/contrib/%s', dev.user, dev.password, version.r, dev.user, dev.host, version.r))
