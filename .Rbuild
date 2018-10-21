@@ -173,8 +173,8 @@ build <- function() {
 
   # devtools::check()
   
-  devtools::build(path =         'dist', vignettes = TRUE)
-  devtools::build(path = sprintf('dist/%s', version.r), binary = TRUE, vignettes = TRUE)
+  devtools::build(path =         'dist', vignettes = FALSE)
+  devtools::build(path = sprintf('dist/%s', version.r), binary = TRUE, vignettes = FALSE)
 
   system2('pscp' , sprintf('-P 22 -l %s -pw %s -batch -r ./dist/*.gz      %s@%s:/var/r/src/contrib'          , dev.user, dev.password           , dev.user, dev.host))
   system2('pscp' , sprintf('-P 22 -l %s -pw %s -batch -r ./dist/%s/*.zip %s@%s:/var/r/bin/windows/contrib/%s', dev.user, dev.password, version.r, dev.user, dev.host, version.r))
