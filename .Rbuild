@@ -113,6 +113,7 @@ assign('cc' , structure('no', class = 'cc'), envir = alias)
 assign('dd' , structure('no', class = 'dd'), envir = alias)
 assign('ii' , structure('no', class = 'ii'), envir = alias)
 assign('id' , structure('no', class = 'id'), envir = alias)
+assign('la' , structure('no', class = 'la'), envir = alias) # load_all
 assign('ll' , structure('no', class = 'll'), envir = alias)
 assign('lll', structure('no', class = 'lll'), envir = alias)
 assign('tt' , structure('no', class = 'tt'), envir = alias)
@@ -129,10 +130,12 @@ assign('print.ii', function(x) {
 assign('print.id', function(x) {
   devtools::install_deps(dependencies = TRUE)}   , envir = alias)
 
-assign('print.ll', function(x) {
-  devtools::load_all()}, envir = alias)
+assign('print.la', function(x) {
+  devtools::load_all('../../r (fork)/htmlwidgets')
+  devtools::load_all()
+}, envir = alias)
 
-assign('print.lll', function(x) {
+assign('print.ll', function(x) {
   devtools::load_all()}, envir = alias)
 
 assign('print.tt', function(x) {
@@ -140,17 +143,16 @@ assign('print.tt', function(x) {
 
 attach(alias)
 
-style <- function(strict = FALSE) {
-  require(styler)
-  style_dir('inst/shiny/default', strict = strict)
-  style_dir('r', strict = strict)
-  style_dir('tests', strict = strict)
+style <- function() {
+  styler::style_dir('inst/shiny/default', strict = FALSE)
+  styler::style_dir('r', strict = FALSE)
+  styler::style_dir('tests', strict = FALSE)
 }
 
 sinew <- function() {
   lf <- list.files('R', full.names = TRUE)
   for(f in lf)
-    try(makeOxyFile(f, verbose = FALSE, overwrite = TRUE))
+    try(sinew::makeOxyFile(f, verbose = FALSE, overwrite = TRUE))
 }
 
 .pretty <- function() {

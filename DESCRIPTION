@@ -1,6 +1,6 @@
 Package: highcharter
 Type: Package
-Version: 0.6.0-9003
+Version: 0.6.0-9004
 Title: A Wrapper for the 'Highcharts' Library
 Description: A wrapper for the 'Highcharts' library including
     shortcut functions to plot R objects. 'Highcharts'
@@ -46,7 +46,7 @@ Imports:
     lubridate,
     crosstalk,
     yaml,
-    rlang(>= 0.1.1),
+    rlang(>= 0.2.2),
     whisker
 Suggests:
     knitr,

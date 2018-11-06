@@ -200,3 +200,54 @@ highchartzero <- function(hc_opts = list(),
   )
 }
 
+#' @export
+#' 
+highchartProxy <- function(shinyId, data = NULL, session = shiny::getDefaultReactiveDomain()) {
+  
+  if (is.null(session)) {
+    stop("highchartProxy must be called from the server function of a Shiny app")
+  }
+  
+  if (!is.null(session$ns) && nzchar(session$ns(NULL)) && substring(shinyId, 1, nchar(session$ns(""))) != session$ns("")) {
+    shinyId <- session$ns(shinyId)
+  }
+  
+  structure(
+    list(
+      session = session,
+      id = shinyId,
+      x = structure(
+        list(data = data)
+      )
+    ),
+    class = "highchart_Proxy"
+  )
+}
+
+checkProxy <- function(proxy) {
+  if (!"highchart_Proxy" %in% class(proxy)) 
+    stop("This function must be used with a highchart proxy object")
+}
+
+#' Set a new title or subtitle for the chart.
+#'
+#' @param proxy
+#' @param title_opts  New title options. 
+#' @param subtitle_opts New subtitle options.
+#' @param redraw Whether to redraw the chart or wait for a later call.
+#'
+#' @export
+#' 
+hc_set_title <- function(proxy, title_opts = NULL, subtitle_opts = NULL, redraw = TRUE) {
+  checkProxy(proxy)
+  proxy$session$sendCustomMessage(
+    type = 'set-title', 
+    message = list(
+      id = proxy$id, 
+      titleOpts = title_opts,
+      subtitleOptions = subtitle_opts,
+      redraw = redraw)
+  )
+  
+  proxy
+}
