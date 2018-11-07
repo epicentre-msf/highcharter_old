@@ -127,6 +127,41 @@ HTMLWidgets.widget({
         } 
 
         chart = $("#" +el.id).highcharts();
+        
+        if (HTMLWidgets.shinyMode) {
+
+            chart.update({
+
+              plotOptions: {
+                series: {
+                  events: {
+                    click: function(event) {
+                      console.log('click');
+                      var message = {
+                        serie: this.name,
+                        void: Math.random()}; 
+                      Shiny.onInputChange(el.id + '_click_serie', message);
+                    }
+                  },
+                  point: {
+                    events: {
+                      click: function(event) {
+                        console.log('click');
+                        var message = {
+                          x: this.x,
+                          y: this.y,
+                          void: Math.random()}; 
+                        Shiny.onInputChange(el.id + '_click', message);
+                      }
+                    }
+                  }
+                }
+              }
+
+            })
+
+        }
+
       },
 
       getChart: function(){
@@ -160,13 +195,32 @@ function get_highchart(id){
   return(hcObj);
 }
 
-Shiny.addCustomMessageHandler('set-title',
-  function(msg) {
-    var chart = get_highchart(msg.id);
-    if (typeof chart != 'undefined') {
-      chart.setTitle(
-        msg.titleOpts, 
-        msg.subtitleOptions, 
-        msg.redraw);
-    }
-});
+if (HTMLWidgets.shinyMode) {
+
+  Shiny.addCustomMessageHandler('set-title',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.setTitle(
+          msg.titleOpts, 
+          msg.subtitleOptions, 
+          msg.redraw);
+      }
+  });
+
+  Shiny.addCustomMessageHandler('add-plotband',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.xAxis[0].addPlotBand(options = msg.options);
+      }
+  });
+
+  Shiny.addCustomMessageHandler('remove-plotband',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.xAxis[0].removePlotBand(id = msg.band);
+      }
+  });
+}

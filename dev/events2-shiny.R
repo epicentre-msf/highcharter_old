@@ -5,9 +5,7 @@ library(tidyverse)
 
 options(highcharter.theme = hc_theme_smpl())
 
-hc <- highcharts_demo() 
-
-hc_base <- hchart(mpg, "scatter", hcaes(x = cty, y = displ, group = class, name = model))
+hc_base <- highcharts_demo() 
 
 
 ui <- fluidPage(

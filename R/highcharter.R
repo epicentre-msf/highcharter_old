@@ -248,6 +248,31 @@ hc_set_title <- function(proxy, title_opts = NULL, subtitle_opts = NULL, redraw 
       subtitleOptions = subtitle_opts,
       redraw = redraw)
   )
-  
+  proxy
+}
+
+#' @export
+#' 
+hc_add_plotband <- function(proxy, options) {
+  checkProxy(proxy)
+  proxy$session$sendCustomMessage(
+    type = 'add-plotband', 
+    message = list(
+      id = proxy$id,
+      options = options)
+  )
+  proxy
+}
+
+#' @export
+#' 
+hc_remove_plotband <- function(proxy, id) {
+  checkProxy(proxy)
+  proxy$session$sendCustomMessage(
+    type = 'remove-plotband', 
+    message = list(
+      id = proxy$id,
+      band = id)
+  )
   proxy
 }
