@@ -19,11 +19,15 @@
 hc_add_event_point <- function(hc, series = "series", event = "click"){
 
   fun <- paste0("function(){
-  var pointinfo = {series: this.series.name, seriesid: this.series.id,
-  name: this.name, x: this.x, y: this.y, category: this.category.name}
+  var pointinfo = {
+    series: this.series.name, 
+    seriesid: this.series.id,
+    name: this.name, 
+    x: this.x, 
+    y: this.y
+  }
   window.x = this;
   console.log(pointinfo);
-
   if (typeof Shiny != 'undefined') { Shiny.onInputChange(this.series.chart.renderTo.id + '_' + '", event, "', pointinfo); }
 }")
 

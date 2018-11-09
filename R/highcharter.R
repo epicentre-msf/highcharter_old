@@ -276,3 +276,26 @@ hc_remove_plotband <- function(proxy, id) {
   )
   proxy
 }
+
+#' @export
+#' 
+hc_set_data <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw = TRUE, animation = NULL, updatePoints = TRUE) {
+  checkProxy(proxy)
+  
+  data <- mutate_mapping(data, mapping)
+  
+  series <- data_to_series(data, mapping, type = type)
+
+  for(i in 1:length(series))
+    proxy$session$sendCustomMessage(
+      type = 'set-data', 
+      message = list(
+        id = proxy$id, 
+        serie = i-1,
+        data = series[[i]]$data,
+        redraw = redraw,
+        animation = animation,
+        updatePoints = updatePoints)
+    )
+  proxy
+}

@@ -223,4 +223,18 @@ if (HTMLWidgets.shinyMode) {
         chart.xAxis[0].removePlotBand(id = msg.band);
       }
   });
+
+  Shiny.addCustomMessageHandler('set-data',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.series[msg.serie].setData(
+          data = msg.data,
+          redraw = msg.redraw,
+          animation = msg.animation,
+          updatePoints = msg.updatePoints
+        );
+      }
+  });
+
 }
