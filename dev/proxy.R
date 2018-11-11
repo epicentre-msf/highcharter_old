@@ -1,7 +1,7 @@
 rm(list = ls())
+
 library(shiny)
 library(highcharter)
-library(tidyverse)
 
 options(highcharter.theme = hc_theme_smpl())
 
@@ -14,6 +14,7 @@ ui <- fluidPage(
       actionButton(inputId = "update", label = "Update chart", width = "100%")
     )
   )
+)
 
 server = function(input, output) {
   
@@ -33,7 +34,7 @@ server = function(input, output) {
 
  observeEvent(input$update, {
     highchartProxy(shinyId = "hc_1") %>% 
-     hc_set_title(title_opts = list(text = 'truc'))
+      hc_set_title(title_opts = list(text = 'truc'))
  }, ignoreInit = TRUE)
  
 }

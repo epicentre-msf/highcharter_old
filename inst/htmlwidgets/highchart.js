@@ -208,6 +208,22 @@ if (HTMLWidgets.shinyMode) {
       }
   });
 
+  Shiny.addCustomMessageHandler('add-plotline',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.xAxis[0].addPlotLine(options = msg.options);
+      }
+  });
+
+  Shiny.addCustomMessageHandler('remove-plotline',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.xAxis[0].removePlotLine(id = msg.band);
+      }
+  });
+
   Shiny.addCustomMessageHandler('add-plotband',
     function(msg) {
       var chart = get_highchart(msg.id);
