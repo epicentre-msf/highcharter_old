@@ -129,37 +129,6 @@ HTMLWidgets.widget({
         chart = $("#" +el.id).highcharts();
         
         if (HTMLWidgets.shinyMode) {
-
-            chart.update({
-
-              plotOptions: {
-                series: {
-                  events: {
-                    click: function(event) {
-                      console.log('click');
-                      var message = {
-                        serie: this.name,
-                        void: Math.random()}; 
-                      Shiny.onInputChange(el.id + '_click_serie', message);
-                    }
-                  },
-                  point: {
-                    events: {
-                      click: function(event) {
-                        console.log('click');
-                        var message = {
-                          x: this.x,
-                          y: this.y,
-                          void: Math.random()}; 
-                        Shiny.onInputChange(el.id + '_click', message);
-                      }
-                    }
-                  }
-                }
-              }
-
-            })
-
         }
 
       },
@@ -240,6 +209,32 @@ if (HTMLWidgets.shinyMode) {
       }
   });
 
+  Shiny.addCustomMessageHandler('set-visible',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        var serie = chart.get(msg.serie);
+        serie.setVisible(
+          visible = msg.visible, 
+          redraw = msg.redraw
+        );
+      }
+  });
+
+  Shiny.addCustomMessageHandler('set-extremes',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        var axis = chart.yAxis[0];
+        axis.setExtremes(
+          newMin = msg.newMin, 
+          newMax = msg.newMax, 
+          redraw = msg.redraw, 
+          animation = msg.animation
+        );
+      }
+  });
+
   Shiny.addCustomMessageHandler('set-data',
     function(msg) {
       var chart = get_highchart(msg.id);
@@ -250,6 +245,14 @@ if (HTMLWidgets.shinyMode) {
           animation = msg.animation,
           updatePoints = msg.updatePoints
         );
+      }
+  });
+
+  Shiny.addCustomMessageHandler('redraw',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.redraw();
       }
   });
 

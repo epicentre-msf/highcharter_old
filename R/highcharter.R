@@ -238,7 +238,7 @@ checkProxy <- function(proxy) {
 #'
 #' @export
 #' 
-hc_set_title <- function(proxy, title_opts = NULL, subtitle_opts = NULL, redraw = TRUE) {
+hc_set_title <- function(proxy, title_opts = NULL, subtitle_opts = NULL, redraw = FALSE) {
   checkProxy(proxy)
   proxy$session$sendCustomMessage(
     type = 'set-title', 
@@ -305,7 +305,43 @@ hc_remove_plotband <- function(proxy, id) {
 
 #' @export
 #' 
-hc_set_data <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw = TRUE, animation = NULL, updatePoints = TRUE) {
+hc_set_visible <- function(proxy, serie = 0, visible = TRUE, redraw = TRUE) {
+  checkProxy(proxy)
+  
+  proxy$session$sendCustomMessage(
+    type = 'set-visible', 
+    message = list(
+      id = proxy$id, 
+      serie = serie,
+      visible = visible,
+      redraw = redraw)
+  )
+
+  return(proxy)
+}
+
+#' @export
+#' 
+hc_set_extremes <- function(proxy, axes = 0, newmin = NA, newmax = NA, redraw = TRUE, animation = TRUE) {
+  checkProxy(proxy)
+  
+  proxy$session$sendCustomMessage(
+    type = 'set-extremes', 
+    message = list(
+      id = proxy$id, 
+      axes = axes,
+      newMin = newmin,
+      newMax = newmax,
+      redraw = redraw,
+      animation = animation)
+  )
+
+  return(proxy)
+}
+
+#' @export
+#' 
+hc_set_data <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw = FALSE, animation = NULL, updatePoints = TRUE) {
   checkProxy(proxy)
   
   data <- mutate_mapping(data, mapping)
@@ -323,5 +359,40 @@ hc_set_data <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw 
         animation = animation,
         updatePoints = updatePoints)
     )
-  proxy
+
+  return(proxy)
+}
+
+#' @export
+#' 
+hc_set_data_map <- function(proxy, data, redraw = FALSE, animation = NULL, updatePoints = TRUE) {
+  checkProxy(proxy)
+  
+  data <- list_parse(data)
+  
+  proxy$session$sendCustomMessage(
+    type = 'set-data', 
+    message = list(
+      id = proxy$id, 
+      serie = 0,
+      data = data,
+      redraw = redraw,
+      animation = animation,
+      updatePoints = updatePoints)
+  )
+
+  return(proxy)
+}
+
+#' @export
+#' 
+hc_redraw <- function(proxy) {
+  checkProxy(proxy)
+    
+  proxy$session$sendCustomMessage(
+    type = 'redraw', 
+    message = list(id = proxy$id)
+  )
+
+  return(proxy)
 }

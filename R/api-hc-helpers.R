@@ -61,7 +61,7 @@ hc_add_event_point <- function(hc, series = "series", event = "click"){
 hc_add_event_series <- function(hc, series = "series", event = "click"){
 
   fun <- paste0("function(){
-  var seriesinfo = {name: this.name }
+  var seriesinfo = {name: this.name, void: Math.random()}
   console.log(seriesinfo);
   window.x = this;
   if (typeof Shiny != 'undefined') { Shiny.onInputChange(this.chart.renderTo.id + '_' + '", event, "', seriesinfo); }
