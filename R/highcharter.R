@@ -253,12 +253,13 @@ hc_set_title <- function(proxy, title_opts = NULL, subtitle_opts = NULL, redraw 
 
 #' @export
 #' 
-hc_add_plotline <- function(proxy, options) {
+hc_add_plotline <- function(proxy, options, axis = 'x') {
   checkProxy(proxy)
   proxy$session$sendCustomMessage(
     type = 'add-plotline', 
     message = list(
       id = proxy$id,
+      axis = axis,
       options = options)
   )
   proxy
@@ -279,12 +280,13 @@ hc_add_plotband <- function(proxy, options) {
 
 #' @export
 #' 
-hc_remove_plotline <- function(proxy, id) {
+hc_remove_plotline <- function(proxy, id, axis = 'x') {
   checkProxy(proxy)
   proxy$session$sendCustomMessage(
     type = 'remove-plotline', 
     message = list(
       id = proxy$id,
+      axis = axis,
       band = id)
   )
   proxy

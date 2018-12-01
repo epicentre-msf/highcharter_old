@@ -181,7 +181,11 @@ if (HTMLWidgets.shinyMode) {
     function(msg) {
       var chart = get_highchart(msg.id);
       if (typeof chart != 'undefined') {
-        chart.xAxis[0].addPlotLine(options = msg.options);
+        if(msg.axis == 'x') {
+          chart.xAxis[0].addPlotLine(options = msg.options);
+        } else {
+          chart.yAxis[0].addPlotLine(options = msg.options);
+        }
       }
   });
 
@@ -189,7 +193,11 @@ if (HTMLWidgets.shinyMode) {
     function(msg) {
       var chart = get_highchart(msg.id);
       if (typeof chart != 'undefined') {
-        chart.xAxis[0].removePlotLine(id = msg.band);
+        if(msg.axis == 'x') {
+          chart.xAxis[0].removePlotLine(id = msg.band);
+        } else {
+          chart.yAxis[0].removePlotLine(id = msg.band);
+        }
       }
   });
 

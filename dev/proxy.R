@@ -34,7 +34,8 @@ server = function(input, output) {
 
  observeEvent(input$update, {
     highchartProxy(shinyId = "hc_1") %>% 
-      hc_set_title(title_opts = list(text = 'truc'))
+      hc_set_title(title_opts = list(text = 'truc')) %>% 
+      hc_add_plotline(options = list(id = 'plotline_range_min', color = 'red', value = 1, width = 1, zIndex = 2), axis = 'y')
  }, ignoreInit = TRUE)
  
 }
