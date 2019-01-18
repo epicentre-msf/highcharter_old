@@ -1,4 +1,12 @@
-# highcharter 0.6.0 
+# highcharter 0.7.1
+
+## Changes
+
+* Removing whisker package dependency (#415).
+* Bullet chart is supported. Added `bullet.js` module to `highchart.yalm` (#482).
+
+
+# highcharter 0.7.0 
 
 ## Changes
 
@@ -7,7 +15,7 @@
 
 ## New Features
 
-* Highcharter now uses HighchartsJS 6 (6.0.3)
+* Highcharter now uses HighchartsJS 7 (7.0.1)
 * `divBackgroundImage` works with themes (#278).
 * New function `hctreemap2` (#110). 
 * New function `hc_responsive` to configure responsive features(#305). 
