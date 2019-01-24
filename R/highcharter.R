@@ -367,6 +367,30 @@ hc_set_data <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw 
 
 #' @export
 #' 
+hc_set_data_serie <- function(proxy, serie = 0, type, data, mapping = hcaes(), redraw = FALSE, animation = NULL, updatePoints = TRUE) {
+  checkProxy(proxy)
+  
+  data <- mutate_mapping(data, mapping)
+
+  series <- data_to_series(data, mapping, type = type)
+
+  proxy$session$sendCustomMessage(
+    type = 'set-data', 
+    message = list(
+      id = proxy$id, 
+      serie = serie,
+      data = series[[1]]$data,
+      redraw = redraw,
+      animation = animation,
+      updatePoints = updatePoints,
+      visible = TRUE)
+  )
+
+  return(proxy)
+}
+
+#' @export
+#' 
 hc_set_data_map <- function(proxy, data, redraw = FALSE, animation = NULL, updatePoints = TRUE) {
   checkProxy(proxy)
   

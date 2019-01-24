@@ -221,7 +221,7 @@ if (HTMLWidgets.shinyMode) {
     function(msg) {
       var chart = get_highchart(msg.id);
       if (typeof chart != 'undefined') {
-        var serie = chart.get(msg.serie);
+        var serie = chart.series[msg.serie];
         serie.setVisible(
           visible = msg.visible, 
           redraw = msg.redraw
