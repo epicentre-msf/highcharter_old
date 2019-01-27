@@ -256,6 +256,17 @@ if (HTMLWidgets.shinyMode) {
       }
   });
 
+  Shiny.addCustomMessageHandler('update-axis',
+    function(msg) {
+      var chart = get_highchart(msg.id);
+      if (typeof chart != 'undefined') {
+        chart.yAxis[msg.axis].update(
+          options = msg.options,
+          redraw = msg.redraw
+        );
+      }
+  });
+
   Shiny.addCustomMessageHandler('redraw',
     function(msg) {
       var chart = get_highchart(msg.id);

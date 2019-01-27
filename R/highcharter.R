@@ -412,6 +412,23 @@ hc_set_data_map <- function(proxy, data, redraw = FALSE, animation = NULL, updat
 
 #' @export
 #' 
+hc_update_axis <- function(proxy, axis, options, redraw = FALSE) {
+  checkProxy(proxy)
+  
+  proxy$session$sendCustomMessage(
+    type = 'update-axis', 
+    message = list(
+      id = proxy$id, 
+      axis = axis,
+      options = options,
+      redraw = redraw)
+  )
+
+  return(proxy)
+}
+
+#' @export
+#' 
 hc_redraw <- function(proxy) {
   checkProxy(proxy)
     
